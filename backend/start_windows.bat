@@ -26,6 +26,8 @@ IF "%PORT%"=="" SET PORT=8080
 IF "%HOST%"=="" SET HOST=0.0.0.0
 SET "WEBUI_SECRET_KEY=%WEBUI_SECRET_KEY%"
 SET "WEBUI_JWT_SECRET_KEY=%WEBUI_JWT_SECRET_KEY%"
+IF "%ENV%"=="" SET "ENV=dev"
+IF "%GLOBAL_LOG_LEVEL%"=="" SET "GLOBAL_LOG_LEVEL=DEBUG"
 
 :: Check if WEBUI_SECRET_KEY and WEBUI_JWT_SECRET_KEY are not set
 IF "%WEBUI_SECRET_KEY% %WEBUI_JWT_SECRET_KEY%" == " " (
@@ -46,5 +48,5 @@ IF "%WEBUI_SECRET_KEY% %WEBUI_JWT_SECRET_KEY%" == " " (
 :: Execute uvicorn
 SET "WEBUI_SECRET_KEY=%WEBUI_SECRET_KEY%"
 IF "%UVICORN_WORKERS%"=="" SET UVICORN_WORKERS=1
-uvicorn open_webui.main:app --host "%HOST%" --port "%PORT%" --forwarded-allow-ips '*' --workers %UVICORN_WORKERS% --ws auto
-:: For ssl user uvicorn open_webui.main:app --host "%HOST%" --port "%PORT%" --forwarded-allow-ips '*' --ssl-keyfile "key.pem" --ssl-certfile "cert.pem" --ws auto
+uvicorn run open_webui.main:app --host "%HOST%" --port "%PORT%" --forwarded-allow-ips '*' --workers %UVICORN_WORKERS% --ws auto
+:: For ssl user: uvicorn run open_webui.main:app --host "%HOST%" --port "%PORT%" --forwarded-allow-ips '*' --ssl-keyfile "key.pem" --ssl-certfile "cert.pem" --ws auto
